@@ -1,1 +1,11 @@
 version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3.10.5-management
+    container_name: 'rabbitmq-message-hub'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
