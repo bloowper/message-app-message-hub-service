@@ -11,7 +11,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Builder
 @Data
-public class UserMessage {
+public class UserMessageDto {
     Instant creationDate;
     String chanelUuid;
     String userName;

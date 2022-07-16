@@ -1,12 +1,14 @@
 package orchowski.tomasz.message_hub.messagehandler;
 
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessage;
+import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -17,16 +19,15 @@ import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 class MessageController {
 
     @GetMapping(value = "/message", produces = APPLICATION_NDJSON_VALUE)
-    Flux<UserMessage> getMessages() {
-        return Flux.just(
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 0 content"),
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 1 content"),
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 2 content"),
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 3 content"),
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 4 content"),
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 5 content"),
-                new UserMessage(Instant.now(), UUID.randomUUID().toString(), "user1", "message 6 content")
-        ).delayElements(Duration.ofSeconds(1));
+    Flux<UserMessageDto> getMessages() {
+        return Flux.just(new UserMessageDto(Instant.now(), UUID.randomUUID().toString(), "username", "message content"));
+    }
+
+    @PostMapping(value = "/message")
+    Mono<Void> sendMessage(@RequestBody MessageSendByUser messageSendByUser) {
+        //TODO 1. Get user informations by his api key
+        //TODO 2. map MessageSendByUser to UserMessageDto and pass to messageChoerographer
+        return Mono.empty();
     }
 
 }
