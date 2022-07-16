@@ -24,7 +24,7 @@ class MessageController {
     }
 
     @PostMapping(value = "/message")
-    Mono<Void> sendMessage(@RequestBody MessageSendByUser messageSendByUser) {
+    Mono<Void> sendMessage(@RequestBody MessageFromUser messageSendByUser) {
         // TODO 1. Get user informations by his api key
         // TODO 2. map MessageSendByUser to UserMessageDto and pass to messageChoerographer
         return Mono.empty();

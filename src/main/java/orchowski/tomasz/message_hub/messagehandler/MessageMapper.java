@@ -13,7 +13,7 @@ import java.time.Instant;
 interface MessageMapper { // TODO provide tests
 
     @Mapping(target = "creationDate", expression = "java(Instant.now())")
-    UserMessageDto toDto(MessageSendByUser messageSendByUser);
+    UserMessageDto toDto(MessageFromUser messageSendByUser);
 
-    MessageSendToUser fromDto(UserMessageDto userMessageDto);
+    MessageToUser fromDto(UserMessageDto userMessageDto);
 }
