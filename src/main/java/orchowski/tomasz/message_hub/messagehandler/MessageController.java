@@ -20,13 +20,13 @@ class MessageController {
 
     @GetMapping(value = "/message", produces = APPLICATION_NDJSON_VALUE)
     Flux<UserMessageDto> getMessages() {
-        return Flux.just(new UserMessageDto(Instant.now(), UUID.randomUUID().toString(), "username", "message content"));
+        return Flux.just(new UserMessageDto(Instant.now(), UUID.randomUUID().toString(), "username", UUID.randomUUID().toString(), "message content"));
     }
 
     @PostMapping(value = "/message")
     Mono<Void> sendMessage(@RequestBody MessageSendByUser messageSendByUser) {
-        //TODO 1. Get user informations by his api key
-        //TODO 2. map MessageSendByUser to UserMessageDto and pass to messageChoerographer
+        // TODO 1. Get user informations by his api key
+        // TODO 2. map MessageSendByUser to UserMessageDto and pass to messageChoerographer
         return Mono.empty();
     }
 

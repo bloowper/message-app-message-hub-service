@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 class MessageSendByUser {
     String userUuid;
-    String chanelUuid;
+    String destinationChanelUuid;
     String messageContent;
 }
