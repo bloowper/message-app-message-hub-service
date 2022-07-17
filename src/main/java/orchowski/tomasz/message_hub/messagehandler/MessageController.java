@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 
 @RestController
@@ -25,13 +22,13 @@ class MessageController {
 
     @GetMapping(value = "/message", produces = APPLICATION_NDJSON_VALUE)
     Flux<UserMessageDto> getMessages() {
-        return Flux.just(new UserMessageDto(Instant.now(), UUID.randomUUID().toString(), "username", UUID.randomUUID().toString(), "message content"));
+        return messageOrchestrationFacade.getMessagesToUser(Mono.just("1e2cf80a-f1c9-43c7-b608-084ecc2de638"));
     }
 
     @PostMapping(value = "/message")
     Mono<Void> sendMessage(@RequestBody Mono<MessageFromUser> messageSendByUser) {
         // TODO 1. Get user uuid from his token and inject to controller
-        return null;
+        return messageOrchestrationFacade.sendMessage(messageSendByUser.map(messageMapper::toDto));
     }
 
 }

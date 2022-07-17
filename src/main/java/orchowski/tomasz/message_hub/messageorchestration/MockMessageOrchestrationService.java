@@ -13,6 +13,7 @@ import reactor.util.concurrent.Queues;
 @RequiredArgsConstructor
 @Profile("!messageOrchestration")
 public class MockMessageOrchestrationService implements MessageOrchestrationFacade {
+    //Current implementation broadcast messages to all clients
     private final Sinks.Many<UserMessageDto> sinksMany = Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
 
     @Override
@@ -22,8 +23,7 @@ public class MockMessageOrchestrationService implements MessageOrchestrationFaca
 
     @Override
     public Mono<Void> sendMessage(Mono<UserMessageDto> userMessageMono) {
-        return userMessageMono.doOnNext(sinksMany::tryEmitNext)
-                .then();
+        return userMessageMono.doOnNext(sinksMany::tryEmitNext).then();
     }
 
 }
