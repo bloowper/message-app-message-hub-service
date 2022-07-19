@@ -1,4 +1,4 @@
 spring:
   profiles:
     group:
-      default:
+      default: messageOrchestration
