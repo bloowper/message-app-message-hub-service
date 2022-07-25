@@ -4,7 +4,7 @@ package orchowski.tomasz.message_hub.configuration;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
@@ -20,11 +20,11 @@ import reactor.rabbitmq.SenderOptions;
 class ReactiveRabbitConfig {
 
     @Bean
-    Mono<Connection> connectionMono(@Autowired org.springframework.amqp.rabbit.connection.ConnectionFactory springAmqpConnectionFactory) {
+    Mono<Connection> connectionMono(RabbitProperties rabbitProperties) {
         ConnectionFactory connectionFactory = new com.rabbitmq.client.ConnectionFactory();
         connectionFactory.useNio();
-        connectionFactory.setPort(springAmqpConnectionFactory.getPort());
-        connectionFactory.setHost(springAmqpConnectionFactory.getHost());
+        connectionFactory.setPort(rabbitProperties.getPort());
+        connectionFactory.setHost(rabbitProperties.getHost());
         return Mono.fromCallable(connectionFactory::newConnection);
     }
 

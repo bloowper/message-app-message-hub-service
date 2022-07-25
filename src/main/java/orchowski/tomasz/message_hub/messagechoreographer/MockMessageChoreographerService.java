@@ -1,4 +1,4 @@
-package orchowski.tomasz.message_hub.messageorchestration;
+package orchowski.tomasz.message_hub.messagechoreographer;
 
 import lombok.RequiredArgsConstructor;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
@@ -11,8 +11,8 @@ import reactor.util.concurrent.Queues;
 
 @Service
 @RequiredArgsConstructor
-@Profile("!messageOrchestration")
-public class MockMessageOrchestrationService implements MessageOrchestrationFacade {
+@Profile("!messageChoreographer")
+public class MockMessageChoreographerService implements MessageChoreographerFacade {
     //Current implementation broadcast messages to all clients
     private final Sinks.Many<UserMessageDto> sinksMany = Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
 

@@ -1,10 +1,10 @@
-package orchowski.tomasz.message_hub.messageorchestration;
+package orchowski.tomasz.message_hub.messagechoreographer;
 
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface MessageOrchestrationFacade {
+public interface MessageChoreographerFacade {
     Flux<UserMessageDto> getMessagesToUser(Mono<String> userUuidMono);
 
     Mono<Void> sendMessage(Mono<UserMessageDto> userMessageMono);
