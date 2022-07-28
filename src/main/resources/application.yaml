@@ -11,6 +11,6 @@ message-broker:
   exchange:
     user-message: tx.user.message
   queue:
-    template-user-message: message-hub.instance.%s.message-chanel.%s
+    template-user-message: message-hub.instance.%s.user.%s.connection.%s # 1: instance uuid 2: user uuid 3: connection uuid
   routing-key:
     template-user-message: instance.%s.destination-message-chanel.%s

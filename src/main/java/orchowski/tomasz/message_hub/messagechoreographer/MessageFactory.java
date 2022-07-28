@@ -26,24 +26,22 @@ class MessageFactory {
         return userMessageDtoFlux.map(
                 userMessageDto -> {
                     try {
-                        RoutingKeyStrategy routingPerUerStrategy = getRoutingPerUerStrategy(userMessageDto.getDestinationChanelUuid());
+                        RoutingKeyStrategy routingKeyStrategy = gerRoutingKeyStrategy(userMessageDto.getDestinationChanelUuid());
                         String marshaledMessage = objectMapper.writeValueAsString(userMessageDto);
                         return new OutboundMessage(
                                 properties.getExchange().getUserMessage(),
-                                routingPerUerStrategy.getRoutingKey(),
+                                routingKeyStrategy.getRoutingKey(),
                                 marshaledMessage.getBytes(CHARSET)
                         );
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);// Just sneaky throw, next element chain handle this
                     }
                 }
-        ).onErrorContinue((throwable, o) -> {
-            log.warn("Marshalling of object [{}] failed", o, throwable);
-        });
+        );
     }
 
 
-    private RoutingKeyStrategy getRoutingPerUerStrategy(String destinationChanelUuid) {
+    private RoutingKeyStrategy gerRoutingKeyStrategy(String destinationChanelUuid) {
         return new RoutingPerChanelStrategy(properties.getRoutingKey().getTemplateUserMessage(), destinationChanelUuid, serviceUuidDto.uuid());
     }
 
