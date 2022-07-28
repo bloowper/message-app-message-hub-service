@@ -22,7 +22,7 @@ class MessageController {
 
     @GetMapping(value = "/message", produces = APPLICATION_NDJSON_VALUE)
     Flux<UserMessageDto> getMessages() {
-        return messageChoreographerFacade.getMessagesToUser(Mono.just("1e2cf80a-f1c9-43c7-b608-084ecc2de638"));
+        return messageChoreographerFacade.getUserMessages(Mono.just("1e2cf80a-f1c9-43c7-b608-084ecc2de638"));
     }
 
     @PostMapping(value = "/message")

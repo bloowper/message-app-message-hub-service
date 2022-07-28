@@ -2,3 +2,15 @@ spring:
   profiles:
     group:
       default: messageChoreographer
+  rabbitmq:
+    port: 5672
+    host: localhost
+
+
+message-broker:
+  exchange:
+    user-message: tx.user.message
+  queue:
+    template-user-message: message-hub.instance.%s.message-chanel.%s
+  routing-key:
+    template-user-message: instance.%s.destination-message-chanel.%s

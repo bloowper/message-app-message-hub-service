@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface MessageChoreographerFacade {
-    Flux<UserMessageDto> getMessagesToUser(Mono<String> userUuidMono);
+    Flux<UserMessageDto> getUserMessages(Mono<String> userUuidMono);
 
     Mono<Void> sendMessage(Mono<UserMessageDto> userMessageMono);
 }

@@ -3,6 +3,13 @@ services:
   rabbitmq:
     image: rabbitmq:3.10.5-management
     container_name: 'rabbitmq-message-hub'
+    volumes:
+      - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./rabbitmq/logs:/var/log/rabbitmq/log
+      - ./rabbitmq/var/lib/rabbitmq
+    restart: "no"
     ports:
       - "5672:5672"
       - "15672:15672"

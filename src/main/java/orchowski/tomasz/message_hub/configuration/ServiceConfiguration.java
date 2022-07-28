@@ -9,6 +9,9 @@ import java.util.UUID;
 
 @Configuration
 class ServiceConfiguration {
+    /**
+     * @return uuid of service instance
+     */
     @Bean
     ServiceUuidDto serviceUuidDto() {
         return new ServiceUuidDto(UUID.randomUUID().toString());

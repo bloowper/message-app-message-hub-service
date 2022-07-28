@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class MessageChoreographerService implements MessageChoreographerFacade {
 
     @Override
-    public Flux<UserMessageDto> getMessagesToUser(Mono<String> userUuidMono) {
+    public Flux<UserMessageDto> getUserMessages(Mono<String> userUuidMono) {
         return null;
     }
 
