@@ -17,7 +17,7 @@ public class MessageChoreographerService implements MessageChoreographerFacade {
 
     @Override
     public Flux<UserMessageDto> getUserMessages(Mono<String> userUuidMono) {
-        return null;
+        return messagingService.getUserMessages(userUuidMono);
     }
 
     @Override
