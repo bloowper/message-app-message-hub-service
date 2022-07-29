@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 @Profile("messageChoreographer")
 @Slf4j
 public class MessageChoreographerService implements MessageChoreographerFacade {
+    private final MessagingService messagingService;
 
     @Override
     public Flux<UserMessageDto> getUserMessages(Mono<String> userUuidMono) {
@@ -21,7 +22,7 @@ public class MessageChoreographerService implements MessageChoreographerFacade {
 
     @Override
     public Mono<Void> sendMessage(Mono<UserMessageDto> userMessageMono) {
-        return null;
+        return messagingService.sendUserMessages(userMessageMono);
     }
 
 }

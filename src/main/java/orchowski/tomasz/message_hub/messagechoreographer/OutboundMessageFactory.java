@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import orchowski.tomasz.message_hub.configuration.dto.ServiceUuidDto;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;
 
 import java.nio.charset.Charset;
@@ -16,13 +16,13 @@ import java.nio.charset.StandardCharsets;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-class MessageFactory {
+class OutboundMessageFactory {
     public static final Charset CHARSET = StandardCharsets.UTF_8;
     private final ObjectMapper objectMapper;
     private final ServiceUuidDto serviceUuidDto;
     private final Properties properties;
 
-    Flux<OutboundMessage> createOutboundMessageFlux(Flux<UserMessageDto> userMessageDtoFlux) {
+    Mono<OutboundMessage> createOutboundMessageFlux(Mono<UserMessageDto> userMessageDtoFlux) {
         return userMessageDtoFlux.map(
                 userMessageDto -> {
                     try {
@@ -34,7 +34,7 @@ class MessageFactory {
                                 marshaledMessage.getBytes(CHARSET)
                         );
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);// Just sneaky throw, next element chain handle this
+                        throw new MessageMarshalingException(e);
                     }
                 }
         );

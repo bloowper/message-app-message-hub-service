@@ -9,14 +9,13 @@ import reactor.core.publisher.Flux;
 import reactor.rabbitmq.OutboundMessage;
 import reactor.test.StepVerifier;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-class MessageFactoryTest {
+class OutboundMessageFactoryTest {
     private static final JavaTimeModule JAVA_TIME_MODULE = new JavaTimeModule(); // JACKSON dont support java 8 data types by default
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(JAVA_TIME_MODULE);
     private static final ServiceUuidDto SERVICE_UUID_DTO = new ServiceUuidDto(UUID.randomUUID().toString());
@@ -31,7 +30,7 @@ class MessageFactoryTest {
                     "instance.%s.destination-message-chanel.%s"
             )
     );
-    private static final MessageFactory MESSAGE_FACTORY = new MessageFactory(OBJECT_MAPPER, SERVICE_UUID_DTO, PROPERTIES);
+    private static final OutboundMessageFactory MESSAGE_FACTORY = new OutboundMessageFactory(OBJECT_MAPPER, SERVICE_UUID_DTO, PROPERTIES);
 
     @Test
     void shouldCreateOneOutboundMessage() {

@@ -25,6 +25,8 @@ class ReactiveRabbitConfig {
         connectionFactory.useNio();
         connectionFactory.setPort(rabbitProperties.getPort());
         connectionFactory.setHost(rabbitProperties.getHost());
+        connectionFactory.setPassword(rabbitProperties.getPassword());
+        connectionFactory.setUsername(rabbitProperties.getUsername());
         return Mono.fromCallable(connectionFactory::newConnection);
     }
 

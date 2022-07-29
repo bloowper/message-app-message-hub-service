@@ -12,7 +12,7 @@ import reactor.util.concurrent.Queues;
 @Service
 @RequiredArgsConstructor
 @Profile("!messageChoreographer")
-public class MessageChoreographerServiceMock implements MessageChoreographerFacade {
+public class MessageChoreographerServiceStub implements MessageChoreographerFacade {
     // Current implementation broadcast messages to all clients
     private final Sinks.Many<UserMessageDto> sinksMany = Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
 
