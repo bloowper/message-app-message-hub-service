@@ -42,20 +42,27 @@ class MessagingService {
         // 1 . create queue
         // 2. bind queue to topics that are for related channles
         // 3. subscribe to queue
-        return userUuidMono.map(userUuid -> {
-            return new QueueSpecificationWithUserUuid(
-                    queueSpecificationFactory.createSpecification(userUuid, UUID.randomUUID().toString()),
-                    userUuid
-            );
-        }).flatMapMany(queueSpecificationWithUserUuid -> {
-            return sender.declareQueue(queueSpecificationWithUserUuid.queueSpecification())
-                    .thenMany(getUserChannels(queueSpecificationWithUserUuid.userUuid()))
-                    .map(userUuid -> bindingSpecificationFactory.createBindingSpecification(queueSpecificationWithUserUuid.queueSpecification.getName()))
-                    .doOnNext(sender::bind)// IMPROVEMENT bind at once somehow
-                    .thenMany(receiver.consumeAutoAck(Objects.requireNonNull(queueSpecificationWithUserUuid.queueSpecification.getName())))
-                    .map(Delivery::getBody)
-                    .map(this::unmarshallMessage);
-        });
+        return userUuidMono
+                .map(userUuid -> {
+                    return new QueueSpecificationWithUserUuid(
+                            queueSpecificationFactory.createSpecification(userUuid, UUID.randomUUID().toString()),
+                            userUuid
+                    );
+                })
+                .doOnNext(queueSpecificationWithUserUuid -> log.info("Creating queue {} for user {}", queueSpecificationWithUserUuid.queueSpecification(), queueSpecificationWithUserUuid.userUuid))
+                .flatMapMany(queueSpecificationWithUserUuid -> {
+                    return sender.declareQueue(queueSpecificationWithUserUuid.queueSpecification())
+                            .doOnNext(declareOk -> log.info("Queue created"))
+                            .thenMany(getUserChannels(queueSpecificationWithUserUuid.userUuid()))
+                            .doOnNext(messageChanelUuid -> log.info("Starting binding to message chanel {}", messageChanelUuid))
+                            .map(messageChanelUuid -> bindingSpecificationFactory.createBindingSpecification(queueSpecificationWithUserUuid.queueSpecification.getName(), messageChanelUuid))
+                            .doOnNext(bindingSpecification -> log.info("Created binding specification {}", bindingSpecification))
+                            .doOnNext(sender::bind)// IMPROVEMENT bind at once somehow
+                            .doOnNext(bindingSpecification -> log.info("Starting message consuming"))
+                            .thenMany(receiver.consumeAutoAck(Objects.requireNonNull(queueSpecificationWithUserUuid.queueSpecification.getName())))
+                            .map(Delivery::getBody)
+                            .map(this::unmarshallMessage);
+                });
     }
 
     private UserMessageDto unmarshallMessage(byte[] bytes) {
