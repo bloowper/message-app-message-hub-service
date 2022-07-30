@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class QueuePerUserStrategy implements QueueNamingStrategy {
     private final String queueNameTemplate;
-    private final String chanelUuid;
+    private final String userUuid;
     private final String serviceUuid;
     private final String connectionUuid;
 
     @Override
     public String getQueueName() {
-        return queueNameTemplate.formatted(serviceUuid, chanelUuid, connectionUuid);
+        return queueNameTemplate.formatted(serviceUuid, userUuid, connectionUuid);
     }
 
 }
