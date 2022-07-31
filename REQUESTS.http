@@ -6,20 +6,22 @@ Accept: application/x-ndjson
 GET localhost:8080/api/v1/message
 Accept: application/x-ndjson
 
-### GET MESSAGE SSE client 3
-GET localhost:8080/api/v1/message
-Accept: application/x-ndjson
-
-### GET MESSAGE SSE client 4
-GET localhost:8080/api/v1/message
-Accept: application/x-ndjson
-
-### POST MESSAGE
+### POST MESSAGE 1
 POST localhost:8080/api/v1/message
 Content-Type: application/json
 
 {
   "userUuid" : "e5eea721-0d7c-46e2-8e0e-0870968cb6ae",
-  "destinationChanelUuid" : "4cb4ee4f-96bc-44dd-888c-1def1c2d6ea4",
-  "messageContent" : "sample message"
+  "destinationChanelUuid" : "99b1ace7-dc61-49a6-8e54-bfafb54f4fac",
+  "messageContent" : "Test"
+}
+
+### POST MESSAGE 2
+POST localhost:8080/api/v1/message
+Content-Type: application/json
+
+{
+  "userUuid" : "e5eea721-0d7c-46e2-8e0e-0870968cb6ae",
+  "destinationChanelUuid" : "c1b61767-effa-439d-aa97-c0edc47d326e",
+  "messageContent" : "123"
 }

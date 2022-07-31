@@ -23,6 +23,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 class MessagingService {
+    //TODO REFACTOR
+    // 1. extract methods
+    // 2. extract responsibilities from getUserMessages
     private final Sender sender;
     private final Receiver receiver;
     private final OutboundMessageFactory outboundMessageFactory;
@@ -49,20 +52,26 @@ class MessagingService {
                             userUuid
                     );
                 })
-                .doOnNext(queueSpecificationWithUserUuid -> log.info("Creating queue {} for user {}", queueSpecificationWithUserUuid.queueSpecification(), queueSpecificationWithUserUuid.userUuid))
+                .doOnNext(queueSpecificationWithUserUuid -> log.info("Creating queue {} for user {}", queueSpecificationWithUserUuid.queueSpecification().getName(), queueSpecificationWithUserUuid.userUuid))
                 .flatMapMany(queueSpecificationWithUserUuid -> {
                     return sender.declareQueue(queueSpecificationWithUserUuid.queueSpecification())
-                            .doOnNext(declareOk -> log.info("Queue created"))
-                            .thenMany(getUserChannels(queueSpecificationWithUserUuid.userUuid()))
-                            .doOnNext(messageChanelUuid -> log.info("Starting binding to message chanel {}", messageChanelUuid))
-                            .map(messageChanelUuid -> bindingSpecificationFactory.createBindingSpecification(queueSpecificationWithUserUuid.queueSpecification.getName(), messageChanelUuid))
-                            .doOnNext(bindingSpecification -> log.info("Created binding specification {}", bindingSpecification))
-                            .doOnNext(sender::bind)// IMPROVEMENT bind at once somehow
+                            .doOnNext($ -> log.info("Queue {} for user {} created",queueSpecificationWithUserUuid.queueSpecification().getName(),queueSpecificationWithUserUuid.userUuid()))
+                            .doOnNext($ -> log.info("Binding process started"))
+                            .then(
+                                    getUserChannels(queueSpecificationWithUserUuid.userUuid())
+                                            .map(messageChanelUuid -> bindingSpecificationFactory.createBindingSpecification(queueSpecificationWithUserUuid.queueSpecification.getName(), messageChanelUuid))
+                                            .doOnNext(bindingSpecification -> log.info("Binding queue {} to exchange {} by routing key {}",bindingSpecification.getQueue(),bindingSpecification.getExchange(),bindingSpecification.getRoutingKey()))
+                                            .flatMap(sender::bind)
+                                            .doOnNext(bindingSpecification -> log.info("Queue bound"))
+                                            .then()
+                            )
+                            .doOnNext(unused -> log.info("Binding process ended"))
                             .doOnNext(bindingSpecification -> log.info("Starting message consuming"))
                             .thenMany(receiver.consumeAutoAck(Objects.requireNonNull(queueSpecificationWithUserUuid.queueSpecification.getName())))
                             .map(Delivery::getBody)
                             .map(this::unmarshallMessage);
                 });
+
     }
 
     private UserMessageDto unmarshallMessage(byte[] bytes) {
@@ -80,7 +89,6 @@ class MessagingService {
                 "7d7d757b-d9fb-4780-8f04-e784307a2b7a", Flux.just("99b1ace7-dc61-49a6-8e54-bfafb54f4fac", "c1b61767-effa-439d-aa97-c0edc47d326e", "d291c024-de26-4ad4-80aa-ab9b77f4105b"),
                 "d7b8cfd6-efca-4c3e-9ed3-63d74c80214d", Flux.just("99b1ace7-dc61-49a6-8e54-bfafb54f4fac")
         );
-
         return userUuidChannelsMap.get(userUuid);
     }
 
