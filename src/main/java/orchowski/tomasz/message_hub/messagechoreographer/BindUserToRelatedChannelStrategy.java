@@ -3,7 +3,7 @@ package orchowski.tomasz.message_hub.messagechoreographer;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class BindToRelatedChannelsStrategy implements BindToRoutingKeyStrategy {
+class BindUserToRelatedChannelStrategy implements BindToRoutingKeyStrategy {
     private static final String INSTANCE = "*";
     private final String routingKeyTemplate;
     private final String messageChanelUuid;

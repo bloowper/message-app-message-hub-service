@@ -1,8 +1,8 @@
 package orchowski.tomasz.message_hub.messagechoreographer;
 
-import orchowski.tomasz.message_hub.messagechoreographer.dto.MessageNotSendException;
+import orchowski.tomasz.message_hub.messagechoreographer.dto.MessageSendingException;
 
-class MessageMarshalingException extends MessageNotSendException {
+class MessageMarshalingException extends MessageSendingException {
     public MessageMarshalingException(Throwable cause) {
         super(cause);
     }

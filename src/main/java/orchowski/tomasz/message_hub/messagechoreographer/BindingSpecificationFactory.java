@@ -14,7 +14,7 @@ class BindingSpecificationFactory {
     private final Properties properties;
 
     BindingSpecification createBindingSpecification(String queue, String messageChanelUuid) {
-        BindToRoutingKeyStrategy routingKeyStrategy = new BindToRelatedChannelsStrategy(properties.getRoutingKey().getTemplateUserMessage(), messageChanelUuid);
+        BindToRoutingKeyStrategy routingKeyStrategy = new BindUserToRelatedChannelStrategy(properties.getRoutingKey().getTemplateUserMessage(), messageChanelUuid);
         return BindingSpecification.binding(
                 properties.getExchange().getUserMessage(),
                 routingKeyStrategy.getRoutingKey(),

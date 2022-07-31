@@ -11,7 +11,7 @@ import reactor.rabbitmq.QueueSpecification;
 @Slf4j
 class QueueSpecificationFactory {
     private static final boolean AUTO_DELETE = true;
-    public static final boolean DURABLE = false;
+    private static final boolean DURABLE = false;
     private final Properties properties;
     private final ServiceUuidDto serviceUuidDto;
 
