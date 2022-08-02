@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 class MessageFromUser {
-    String userUuid;
     String destinationChanelUuid;
     String messageContent;
 }

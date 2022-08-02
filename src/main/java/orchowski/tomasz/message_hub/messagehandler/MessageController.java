@@ -1,11 +1,13 @@
 package orchowski.tomasz.message_hub.messagehandler;
 
 import lombok.RequiredArgsConstructor;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import lombok.extern.slf4j.Slf4j;
 import orchowski.tomasz.message_hub.messagechoreographer.MessageChoreographerFacade;
+import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -16,19 +18,21 @@ import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Slf4j
 class MessageController {
+    // TODO change user-uuid header to jwt token and extract user uuid
+
     private final MessageChoreographerFacade messageChoreographerFacade;
     private final MessageMapper messageMapper;
 
     @GetMapping(value = "/message", produces = APPLICATION_NDJSON_VALUE)
-    Flux<UserMessageDto> getMessages() {
-        return messageChoreographerFacade.getUserMessages(Mono.just("7d7d757b-d9fb-4780-8f04-e784307a2b7a"));
+    Flux<UserMessageDto> getMessages(@RequestHeader("User-uuid") String userUuid) {
+        return messageChoreographerFacade.getUserMessages(Mono.just(userUuid));
     }
 
     @PostMapping(value = "/message")
-    Mono<Void> sendMessage(@RequestBody Mono<MessageFromUser> messageSendByUser) {
-        // TODO 1. Get user uuid from his token and inject to controller
-        return messageChoreographerFacade.sendMessage(messageSendByUser.map(messageMapper::toDto));
+    Mono<Void> sendMessage(@RequestBody Mono<MessageFromUser> messageSendByUser, @RequestHeader("User-uuid") String userUuid) {
+        return messageChoreographerFacade.sendMessage(messageSendByUser.map(messageFromUser -> messageMapper.toDto(messageFromUser, userUuid)));
     }
 
 }
