@@ -32,7 +32,9 @@ class MessageController {
 
     @PostMapping(value = "/message")
     Mono<Void> sendMessage(@RequestBody Mono<MessageFromUser> messageSendByUser, @RequestHeader("User-uuid") String userUuid) {
-        return messageChoreographerFacade.sendMessage(messageSendByUser.map(messageFromUser -> messageMapper.toDto(messageFromUser, userUuid)));
+        return messageSendByUser
+                .map(messageFromUser -> messageMapper.toDto(messageFromUser, userUuid))
+                .publish(messageChoreographerFacade::sendMessage);
     }
 
 }
