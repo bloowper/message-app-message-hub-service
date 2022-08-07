@@ -11,6 +11,8 @@ spring:
     host: localhost
     password: admin
     username: admin
+  application:
+    name: message-app-message-hub-service
 
 
 message-broker:
