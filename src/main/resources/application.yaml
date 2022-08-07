@@ -1,5 +1,7 @@
-#server:
+server:
+  port: 8081
 #  shutdown: graceful
+
 spring:
   profiles:
     group:

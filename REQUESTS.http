@@ -1,15 +1,15 @@
 ### GET MESSAGE SSE client 1
-GET localhost:8080/api/v1/message
+GET localhost:8081/api/v1/message
 Accept: application/x-ndjson
 User-uuid: 7d7d757b-d9fb-4780-8f04-e784307a2b7a
 
 ### GET MESSAGE SSE client 2
-GET localhost:8080/api/v1/message
+GET localhost:8081/api/v1/message
 Accept: application/x-ndjson
 User-uuid: d7b8cfd6-efca-4c3e-9ed3-63d74c80214d
 
 ### POST MESSAGE client 1
-POST localhost:8080/api/v1/message
+POST localhost:8081/api/v1/message
 Content-Type: application/json
 User-uuid: 7d7d757b-d9fb-4780-8f04-e784307a2b7a
 
@@ -20,7 +20,7 @@ User-uuid: 7d7d757b-d9fb-4780-8f04-e784307a2b7a
 }
 
 ### POST MESSAGE  client 2
-POST localhost:8080/api/v1/message
+POST localhost:8081/api/v1/message
 Content-Type: application/json
 User-uuid: d7b8cfd6-efca-4c3e-9ed3-63d74c80214d
 
