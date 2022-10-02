@@ -22,6 +22,8 @@ eureka:
 message-broker:
   exchange:
     user-message: tx.user.message
+    durable: false
+    auto-delete: false
   queue:
     template-user-message: message-hub.instance.%s.user.%s.connection.%s # 1: instance uuid 2: user uuid 3: connection uuid
   routing-key:
