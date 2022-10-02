@@ -19,7 +19,7 @@ User-uuid: 2183d649-1752-4be6-8339-fa3e8dd6fdc2
   "messageContent": "T1231312313213123131est"
 }
 
-### POST MESSAGE  client 1
+### POST MESSAGE  client 2
 POST localhost:8081/api/v1/message
 Content-Type: application/json
 User-uuid: 594cecd5-1921-417a-98bd-173262f651ff
