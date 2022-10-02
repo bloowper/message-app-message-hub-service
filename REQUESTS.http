@@ -14,7 +14,6 @@ Content-Type: application/json
 User-uuid: 2183d649-1752-4be6-8339-fa3e8dd6fdc2
 
 {
-  "userUuid": "e5eea721-0d7c-46e2-8e0e-0870968cb6ae",
   "destinationChanelUuid": "99b1ace7-dc61-49a6-8e54-bfafb54f4fac",
   "messageContent": "T1231312313213123131est"
 }
@@ -25,7 +24,6 @@ Content-Type: application/json
 User-uuid: 594cecd5-1921-417a-98bd-173262f651ff
 
 {
-  "userUuid": "e5eea721-0d7c-46e2-8e0e-0870968cb6ae",
   "destinationChanelUuid": "86b1555e-cd12-428b-b308-5e843c611b57",
   "messageContent": "123"
 }

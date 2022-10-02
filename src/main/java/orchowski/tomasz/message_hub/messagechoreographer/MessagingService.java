@@ -60,6 +60,7 @@ class MessagingService {
 
     private Mono<Void> bindQueueToRelatedChannels(QueueSpecificationWithUserUuid queueSpecificationWithUserUuid) {
         return userInformationFacade.getUserChannels(Mono.just(queueSpecificationWithUserUuid.userUuid()))
+                .doOnNext(channelDto -> log.info("Received channel information [{}]", channelDto))
                 .map(channelDto -> bindingSpecificationFactory.createBindingSpecification(queueSpecificationWithUserUuid.queueSpecification.getName(), channelDto.chanelId()))
                 .doOnNext(bindingSpecification -> log.info("Binding queue {} to exchange {} by routing key {}", bindingSpecification.getQueue(), bindingSpecification.getExchange(), bindingSpecification.getRoutingKey()))
                 .flatMap(sender::bind)
