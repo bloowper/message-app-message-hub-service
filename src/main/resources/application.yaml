@@ -5,7 +5,7 @@ server:
 spring:
   profiles:
     group:
-      default: messageChoreographer
+      default: messageChoreographer,userInformation
   rabbitmq:
     port: 5672
     host: localhost

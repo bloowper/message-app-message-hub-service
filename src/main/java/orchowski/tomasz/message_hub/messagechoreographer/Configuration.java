@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @org.springframework.context.annotation.Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({Properties.class})
+@EnableConfigurationProperties({MessageBrokerProperties.class})
 class Configuration {
 
 }

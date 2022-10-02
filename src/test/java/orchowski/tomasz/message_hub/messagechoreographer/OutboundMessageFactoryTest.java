@@ -6,6 +6,7 @@ import orchowski.tomasz.message_hub.configuration.dto.ServiceUuidDto;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;
 import reactor.test.StepVerifier;
 
@@ -19,18 +20,18 @@ class OutboundMessageFactoryTest {
     private static final JavaTimeModule JAVA_TIME_MODULE = new JavaTimeModule(); // JACKSON dont support java 8 data types by default
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(JAVA_TIME_MODULE);
     private static final ServiceUuidDto SERVICE_UUID_DTO = new ServiceUuidDto(UUID.randomUUID().toString());
-    public static final Properties PROPERTIES = new Properties(
-            new Properties.Exchange(
+    public static final MessageBrokerProperties MESSAGE_BROKER_PROPERTIES = new MessageBrokerProperties(
+            new MessageBrokerProperties.Exchange(
                     "tx.user.message"
             ),
-            new Properties.Queue(
+            new MessageBrokerProperties.Queue(
                     "message-hub.instance.%s.message-chanel.%s"
             ),
-            new Properties.RoutingKey(
+            new MessageBrokerProperties.RoutingKey(
                     "instance.%s.destination-message-chanel.%s"
             )
     );
-    private static final OutboundMessageFactory MESSAGE_FACTORY = new OutboundMessageFactory(OBJECT_MAPPER, SERVICE_UUID_DTO, PROPERTIES);
+    private static final OutboundMessageFactory MESSAGE_FACTORY = new OutboundMessageFactory(OBJECT_MAPPER, SERVICE_UUID_DTO, MESSAGE_BROKER_PROPERTIES);
 
     @Test
     void shouldCreateOneOutboundMessage() {
@@ -44,17 +45,17 @@ class OutboundMessageFactoryTest {
 
 
         // when
-        Flux<OutboundMessage> outboundMessageFlux = MESSAGE_FACTORY.createOutboundMessageFlux(Flux.just(userMessageDto));
+        Mono<OutboundMessage> outboundMessageFlux = MESSAGE_FACTORY.createOutboundMessageFlux(Mono.just(userMessageDto));
 
         // then
         StepVerifier.create(outboundMessageFlux)
                 .assertNext(outboundMessage -> {
                     assertEquals(
-                            new RoutingPerChanelStrategy(PROPERTIES.getRoutingKey().getTemplateUserMessage(), destinationChanelUuid, SERVICE_UUID_DTO.uuid()).getRoutingKey(),
+                            new RoutingPerChanelStrategy(MESSAGE_BROKER_PROPERTIES.getRoutingKey().getTemplateUserMessage(), destinationChanelUuid, SERVICE_UUID_DTO.uuid()).getRoutingKey(),
                             outboundMessage.getRoutingKey()
                     );
                     assertEquals(
-                            PROPERTIES.getExchange().getUserMessage(),
+                            MESSAGE_BROKER_PROPERTIES.getExchange().getUserMessage(),
                             outboundMessage.getExchange()
                     );
                     //TODO provide tests for body of rabbitmq message

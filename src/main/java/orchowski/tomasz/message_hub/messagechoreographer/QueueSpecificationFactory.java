@@ -12,11 +12,11 @@ import reactor.rabbitmq.QueueSpecification;
 class QueueSpecificationFactory {
     private static final boolean AUTO_DELETE = true;
     private static final boolean DURABLE = false;
-    private final Properties properties;
+    private final MessageBrokerProperties messageBrokerProperties;
     private final ServiceUuidDto serviceUuidDto;
 
     QueueSpecification createSpecification(String userUuid, String connectionUuid) {
-        QueueNamingStrategy queueNamingStrategy = new QueuePerUserStrategy(properties.getQueue().getTemplateUserMessage(), userUuid, serviceUuidDto.uuid(), connectionUuid);
+        QueueNamingStrategy queueNamingStrategy = new QueuePerUserStrategy(messageBrokerProperties.getQueue().getTemplateUserMessage(), userUuid, serviceUuidDto.uuid(), connectionUuid);
         QueueSpecification queueSpecification = new QueueSpecification();
         queueSpecification.name(queueNamingStrategy.getQueueName());
         queueSpecification.autoDelete(AUTO_DELETE);

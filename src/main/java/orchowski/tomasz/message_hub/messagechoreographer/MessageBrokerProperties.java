@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Getter
 @AllArgsConstructor
 @ConstructorBinding
-class Properties {
+class MessageBrokerProperties {
     private final Exchange exchange;
     private final Queue queue;
     private final RoutingKey routingKey;

@@ -11,12 +11,12 @@ import reactor.rabbitmq.BindingSpecification;
 @RequiredArgsConstructor
 @ToString
 class BindingSpecificationFactory {
-    private final Properties properties;
+    private final MessageBrokerProperties messageBrokerProperties;
 
     BindingSpecification createBindingSpecification(String queue, String messageChanelUuid) {
-        BindToRoutingKeyStrategy routingKeyStrategy = new BindUserToRelatedChannelStrategy(properties.getRoutingKey().getTemplateUserMessage(), messageChanelUuid);
+        BindToRoutingKeyStrategy routingKeyStrategy = new BindUserToRelatedChannelStrategy(messageBrokerProperties.getRoutingKey().getTemplateUserMessage(), messageChanelUuid);
         return BindingSpecification.binding(
-                properties.getExchange().getUserMessage(),
+                messageBrokerProperties.getExchange().getUserMessage(),
                 routingKeyStrategy.getRoutingKey(),
                 queue
         );

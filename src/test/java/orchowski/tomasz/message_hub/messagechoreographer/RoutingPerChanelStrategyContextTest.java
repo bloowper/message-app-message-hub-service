@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RoutingPerChanelStrategyContextTest {
     //TODO rewrite tests for importing properties without starting context
     @Autowired
-    Properties properties;
+    MessageBrokerProperties messageBrokerProperties;
 
     @Test
     void shouldReturnRoutingPerChanel() {
@@ -19,7 +19,7 @@ class RoutingPerChanelStrategyContextTest {
         String destinationChanelUuid = "c4e0fbff-3394-4953-b74d-72b336037d3d";
 
         // when
-        String template = properties.getRoutingKey().getTemplateUserMessage();
+        String template = messageBrokerProperties.getRoutingKey().getTemplateUserMessage();
         RoutingKeyStrategy routingKeyStrategy = new RoutingPerChanelStrategy(template, destinationChanelUuid, serviceUuid);
 
         // then

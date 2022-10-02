@@ -1,6 +1,7 @@
 package orchowski.tomasz.message_hub.userinformation;
 
 import orchowski.tomasz.message_hub.userinformation.dto.ChannelDto;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Profile("!userInformation")
 class UserInformationServiceStub implements UserInformationFacade {
     private static final String CHANNEL1 = "99b1ace7-dc61-49a6-8e54-bfafb54f4fac";
     private static final String CHANNEL2 = "86b1555e-cd12-428b-b308-5e843c611b57";

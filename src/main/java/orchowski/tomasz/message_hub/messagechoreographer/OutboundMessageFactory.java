@@ -20,7 +20,7 @@ class OutboundMessageFactory {
     public static final Charset CHARSET = StandardCharsets.UTF_8;
     private final ObjectMapper objectMapper;
     private final ServiceUuidDto serviceUuidDto;
-    private final Properties properties;
+    private final MessageBrokerProperties messageBrokerProperties;
 
     Mono<OutboundMessage> createOutboundMessageFlux(Mono<UserMessageDto> userMessageDtoFlux) {
         return userMessageDtoFlux.map(
@@ -29,7 +29,7 @@ class OutboundMessageFactory {
                         RoutingKeyStrategy routingKeyStrategy = gerRoutingKeyStrategy(userMessageDto.getDestinationChanelUuid());
                         String marshaledMessage = objectMapper.writeValueAsString(userMessageDto);
                         return new OutboundMessage(
-                                properties.getExchange().getUserMessage(),
+                                messageBrokerProperties.getExchange().getUserMessage(),
                                 routingKeyStrategy.getRoutingKey(),
                                 marshaledMessage.getBytes(CHARSET)
                         );
@@ -42,7 +42,7 @@ class OutboundMessageFactory {
 
 
     private RoutingKeyStrategy gerRoutingKeyStrategy(String destinationChanelUuid) {
-        return new RoutingPerChanelStrategy(properties.getRoutingKey().getTemplateUserMessage(), destinationChanelUuid, serviceUuidDto.uuid());
+        return new RoutingPerChanelStrategy(messageBrokerProperties.getRoutingKey().getTemplateUserMessage(), destinationChanelUuid, serviceUuidDto.uuid());
     }
 
 }
