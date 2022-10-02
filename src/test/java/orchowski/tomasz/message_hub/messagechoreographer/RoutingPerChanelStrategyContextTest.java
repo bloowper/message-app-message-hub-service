@@ -14,6 +14,7 @@ class RoutingPerChanelStrategyContextTest {
 
     @Test
     void shouldReturnRoutingPerChanel() {
+        //TODO REFACTROR this test should not be using application.yaml
         // given
         String serviceUuid = "63d29991-f561-4889-9175-6addc199da42";
         String destinationChanelUuid = "c4e0fbff-3394-4953-b74d-72b336037d3d";
