@@ -17,7 +17,7 @@ class UserInformationService implements UserInformationFacade {
     @Override
     public Flux<ChannelDto> getUserChannels(Mono<String> userUuidMono) {
         return channelInformationServiceClient.getUserChannels(userUuidMono)
-                .flatMapMany(this::flatUserChannels);
+                .map(channelInformation -> new ChannelDto(channelInformation.id()));
     }
 
     private Flux<ChannelDto> flatUserChannels(UserChannelsDto userChannelsDto) {

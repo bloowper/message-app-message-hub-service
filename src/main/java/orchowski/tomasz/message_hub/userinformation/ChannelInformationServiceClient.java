@@ -2,6 +2,7 @@ package orchowski.tomasz.message_hub.userinformation;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -17,14 +18,14 @@ class ChannelInformationServiceClient {
                 .build();
     }
 
-    Mono<UserChannelsDto> getUserChannels(Mono<String> userIdMono) {
-        return userIdMono.flatMap(
+    Flux<ChannelInformation> getUserChannels(Mono<String> userIdMono) {
+        return userIdMono.flatMapMany(
                 userId ->
                         webClient
                                 .get()
                                 .uri("/api/v1/user/{userId}", Map.of("userId", userId))
                                 .retrieve()
-                                .bodyToMono(UserChannelsDto.class)
+                                .bodyToFlux(ChannelInformation.class)
         );
     }
 }
