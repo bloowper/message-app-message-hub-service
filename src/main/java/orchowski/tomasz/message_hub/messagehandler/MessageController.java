@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import orchowski.tomasz.message_hub.messagechoreographer.MessageChoreographerFacade;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*", maxAge = 3600) // TODO REMOVE THIS AFTER LOCAL UI DEVELOPMENT
 class MessageController {
     // TODO change user-uuid header to jwt token and extract user uuid
 

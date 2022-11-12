@@ -2,22 +2,22 @@
 // @no-log
 GET localhost:8081/api/v1/message
 Accept: application/x-ndjson
-User-uuid: 594cecd5-1921-417a-98bd-173262f651ff
+User-uuid: fbaa5622-0ddc-4a9d-b40f-559712498ea2
 
 ### GET MESSAGE SSE client 2
 // @no-log
 GET localhost:8081/api/v1/message
 Accept: application/x-ndjson
-User-uuid: fe1137a0-6736-4868-ad58-aefcdf800509
+User-uuid: 06b8fc6d-ff4f-4d28-ac0e-aecd3f310ce7
 
 ### POST MESSAGE client 1
 // @no-log
 POST localhost:8081/api/v1/message
 Content-Type: application/json
-User-uuid: 594cecd5-1921-417a-98bd-173262f651ff
+User-uuid: fbaa5622-0ddc-4a9d-b40f-559712498ea2
 
 {
-  "destinationChanelUuid": "633997755f9fa078bc06aba5",
+  "destinationChanelUuid": "636edd8763d67e7790295619",
   "messageContent": "T1231312313213123131est"
 }
 
@@ -25,9 +25,9 @@ User-uuid: 594cecd5-1921-417a-98bd-173262f651ff
 // @no-log
 POST localhost:8081/api/v1/message
 Content-Type: application/json
-User-uuid: fe1137a0-6736-4868-ad58-aefcdf800509
+User-uuid: 06b8fc6d-ff4f-4d28-ac0e-aecd3f310ce7
 
 {
-  "destinationChanelUuid": "633997755f9fa078bc06aba6",
+  "destinationChanelUuid": "636edd8763d67e779029561b",
   "messageContent": "123"
 }

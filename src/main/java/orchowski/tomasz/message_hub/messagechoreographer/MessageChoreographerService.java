@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @Profile("messageChoreographer")
 @Slf4j
-public class MessageChoreographerService implements MessageChoreographerFacade {
+class MessageChoreographerService implements MessageChoreographerFacade {
     private final MessagingService messagingService;
 
     @Override
