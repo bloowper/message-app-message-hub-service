@@ -140,11 +140,11 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
                 messageChoreographerFacade.getUserMessages(Mono.just(user3Uuid))
         );
 
-        Mono<Void> messageSendByUser3 = messageChoreographerFacade.sendMessage(Mono.just(message));
+        Mono<Void> messageToSharedChannel = messageChoreographerFacade.sendMessage(Mono.just(message));
 
         // then
         StepVerifier.create(messagesToAllUsers)
-                .then(messageSendByUser3::subscribe)
+                .then(messageToSharedChannel::subscribe)
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
