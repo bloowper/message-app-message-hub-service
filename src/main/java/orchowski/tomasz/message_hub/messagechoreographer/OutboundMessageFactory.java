@@ -22,7 +22,7 @@ class OutboundMessageFactory {
     private final ServiceUuidDto serviceUuidDto;
     private final MessageBrokerProperties messageBrokerProperties;
 
-    Mono<OutboundMessage> createOutboundMessageFlux(Mono<UserMessageDto> userMessageDtoFlux) {
+    Mono<OutboundMessage> createOutboundMessageMono(Mono<UserMessageDto> userMessageDtoFlux) {
         return userMessageDtoFlux.map(
                 userMessageDto -> {
                     try {

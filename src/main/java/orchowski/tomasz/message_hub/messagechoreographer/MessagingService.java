@@ -30,7 +30,7 @@ class MessagingService {
     private final UserMessageFactory userMessageFactory;
 
     Mono<Void> sendUserMessages(Mono<UserMessageDto> userMessageDtoFlux) {
-        return sender.send(outboundMessageFactory.createOutboundMessageFlux(userMessageDtoFlux))
+        return sender.send(outboundMessageFactory.createOutboundMessageMono(userMessageDtoFlux))
                 .onErrorMap(MessageSendingException::new);
     }
 
@@ -38,15 +38,15 @@ class MessagingService {
     Flux<UserMessageDto> getUserMessages(Mono<String> userUuidMono) {
         return userUuidMono
                 .map(this::createQueueSpecification)
-                .doOnNext(queueSpecificationWithUserUuid -> log.info("Creating queue {} for user {}", queueSpecificationWithUserUuid.queueSpecification().getName(), queueSpecificationWithUserUuid.userUuid))
-                .flatMapMany(this::createQueueAndSubscribeTo);
+                .doOnNext(queueSpecificationWithUserUuid -> log.info(" queue {} will be created for user {}", queueSpecificationWithUserUuid.queueSpecification().getName(), queueSpecificationWithUserUuid.userUuid))
+                .flatMapMany(this::obtainMessagesForUser);
     }
 
     private QueueSpecificationWithUserUuid createQueueSpecification(String userUuid) {
         return new QueueSpecificationWithUserUuid(queueSpecificationFactory.createSpecification(userUuid, UUID.randomUUID().toString()), userUuid);
     }
 
-    private Flux<UserMessageDto> createQueueAndSubscribeTo(QueueSpecificationWithUserUuid queueSpecificationWithUserUuid) {
+    private Flux<UserMessageDto> obtainMessagesForUser(QueueSpecificationWithUserUuid queueSpecificationWithUserUuid) {
         return sender.declareQueue(queueSpecificationWithUserUuid.queueSpecification())
                 .doOnNext($ -> log.info("Created queue {} for user {}", queueSpecificationWithUserUuid.queueSpecification().getName(), queueSpecificationWithUserUuid.userUuid()))
                 .doOnNext($ -> log.info("Binding process started"))

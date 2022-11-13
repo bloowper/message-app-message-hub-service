@@ -5,7 +5,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import orchowski.tomasz.message_hub.configuration.dto.ServiceUuidDto;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;
 import reactor.test.StepVerifier;
@@ -14,7 +13,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 class OutboundMessageFactoryTest {
     private static final JavaTimeModule JAVA_TIME_MODULE = new JavaTimeModule(); // JACKSON dont support java 8 data types by default
@@ -45,7 +43,7 @@ class OutboundMessageFactoryTest {
 
 
         // when
-        Mono<OutboundMessage> outboundMessageFlux = MESSAGE_FACTORY.createOutboundMessageFlux(Mono.just(userMessageDto));
+        Mono<OutboundMessage> outboundMessageFlux = MESSAGE_FACTORY.createOutboundMessageMono(Mono.just(userMessageDto));
 
         // then
         StepVerifier.create(outboundMessageFlux)
@@ -58,7 +56,7 @@ class OutboundMessageFactoryTest {
                             MESSAGE_BROKER_PROPERTIES.getExchange().getUserMessage(),
                             outboundMessage.getExchange()
                     );
-                    //TODO provide tests for body of rabbitmq message
+                    // TODO provide tests for body of rabbitmq message
                 }).verifyComplete();
     }
 }
