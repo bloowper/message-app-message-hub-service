@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ContextConfiguration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -29,8 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ContextConfiguration(classes = {MessageChoreographerServiceBehavioralIT.MessageChoreographerConfiguration.class})
 @Slf4j
 class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructure {
-    private static final long MESSAGE_SEND_DELAY_MILLIS = 200;
-    private static final long MESSAGE_RECEIVE_TIMEOUT = MESSAGE_SEND_DELAY_MILLIS + 200;
+    private static final long MESSAGE_RECEIVE_TIMEOUT = 600;
 
 
     @Autowired
@@ -57,20 +55,14 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
 
         // when
         Flux<UserMessageDto> messagesToUser1 = messageChoreographerFacade.getUserMessages(Mono.just(user1Uuid));
-        Mono<Void> messageSendByUser2 = messageChoreographerFacade.sendMessage(
-                        Mono.just(messageCreatedByUser2)
-                                .delayElement(Duration.ofMillis(MESSAGE_SEND_DELAY_MILLIS))
-                                .doOnNext(userMessageDto -> log.info("Publishing message: {}", userMessageDto))
-                )
-                .subscribeOn(Schedulers.parallel());
+        Mono<Void> messageSendByUser2 = messageChoreographerFacade.sendMessage(Mono.just(messageCreatedByUser2));
 
         // then
-        messageSendByUser2.subscribe();
-
         StepVerifier.create(messagesToUser1)
+                .then(messageSendByUser2::subscribe)// This line send message after user subscribe
                 .expectNextCount(1)
                 .as("User should received message")
-                .verifyTimeout(Duration.ofMillis(MESSAGE_RECEIVE_TIMEOUT));
+                .thenCancel().verify();
     }
 
     @Test
@@ -91,17 +83,13 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
 
         // when
         Flux<UserMessageDto> messagesToUser1 = messageChoreographerFacade.getUserMessages(Mono.just(user1Uuid));
-        Mono<Void> messageSendByUser2 = messageChoreographerFacade.sendMessage(
-                        Mono.just(messageCreatedByUser2)
-                                .delayElement(Duration.ofMillis(MESSAGE_SEND_DELAY_MILLIS))
-                                .doOnNext(userMessageDto -> log.info("Publishing message: {}", userMessageDto))
-                )
-                .subscribeOn(Schedulers.parallel());
+        Mono<Void> messageSendByUser2 = messageChoreographerFacade.sendMessage(Mono.just(messageCreatedByUser2));
 
         // then
         messageSendByUser2.subscribe();
 
         StepVerifier.create(messagesToUser1)
+                .then(messageSendByUser2::subscribe)
                 .expectNextCount(0)
                 .as("User should not receive message")
                 .verifyTimeout(Duration.ofMillis(MESSAGE_RECEIVE_TIMEOUT));
@@ -119,19 +107,15 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
 
         // when
         Flux<UserMessageDto> messagesToUser = messageChoreographerFacade.getUserMessages(Mono.just(userUuid));
-        Mono<Void> messageSendByUser = messageChoreographerFacade.sendMessage(
-                Mono.just(messageCreatedByUser)
-                        .delayElement(Duration.ofMillis(MESSAGE_SEND_DELAY_MILLIS))
-                        .doOnNext(userMessageDto -> log.info("Publishing message: {}", userMessageDto))
-        ).subscribeOn(Schedulers.parallel());
+        Mono<Void> messageSendByUser = messageChoreographerFacade.sendMessage(Mono.just(messageCreatedByUser));
 
         // then
-        messageSendByUser.subscribe();
 
         StepVerifier.create(messagesToUser)
+                .then(messageSendByUser::subscribe)
                 .expectNextCount(1)
                 .as("User should receive message")
-                .verifyTimeout(Duration.ofMillis(MESSAGE_RECEIVE_TIMEOUT));
+                .thenCancel().verify();
     }
 
     @Test
@@ -156,20 +140,15 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
                 messageChoreographerFacade.getUserMessages(Mono.just(user3Uuid))
         );
 
-        Mono<Void> messageSendByUser3 = messageChoreographerFacade.sendMessage(
-                Mono.just(message)
-                        .delayElement(Duration.ofMillis(MESSAGE_SEND_DELAY_MILLIS))
-                        .doOnNext(userMessageDto -> log.info("Publishing message: {}", userMessageDto))
-        ).subscribeOn(Schedulers.parallel());
+        Mono<Void> messageSendByUser3 = messageChoreographerFacade.sendMessage(Mono.just(message));
 
         // then
-        messageSendByUser3.subscribe();
-
         StepVerifier.create(messagesToAllUsers)
+                .then(messageSendByUser3::subscribe)
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
-                .verifyTimeout(Duration.ofMillis(MESSAGE_RECEIVE_TIMEOUT));
+                .thenCancel().verify();
     }
 
     @TestConfiguration
