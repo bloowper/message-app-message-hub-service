@@ -50,7 +50,7 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
         UserMessageDto messageCreatedByUser2 = new UserMessageDto(Instant.now(), channelUuid, "user2", user2Uuid, "Message content");
 
         // users1 and user2 participate in same channel
-        userInformationServiceStub.setUserChannels(user1Uuid, List.of(channelUuid));
+        userInformationServiceStub.setUserChannels(user1Uuid, List.of(channelUuid)); // m8by mockito would be more readable?
         userInformationServiceStub.setUserChannels(user2Uuid, List.of(channelUuid));
 
         // when
