@@ -26,9 +26,9 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = {MessageChoreographerFacadeBehavioralIT.MessageChoreographerConfiguration.class})
+@ContextConfiguration(classes = {MessageChoreographerServiceBehavioralIT.MessageChoreographerConfiguration.class})
 @Slf4j
-class MessageChoreographerFacadeBehavioralIT extends TestContainerInfrastructure {
+class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructure {
     private static final long MESSAGE_SEND_DELAY_MILLIS = 200;
     private static final long MESSAGE_RECEIVE_TIMEOUT = MESSAGE_SEND_DELAY_MILLIS + 200;
 
