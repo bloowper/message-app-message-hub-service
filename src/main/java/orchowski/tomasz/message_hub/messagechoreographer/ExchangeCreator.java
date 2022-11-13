@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 class ExchangeCreator {
+    // This configures infrastructure after application startup( creating exchange in rabbitmq) [not shore if it is good practice]
     private final TopicExchange userMessageBrokerTopicExchange;
     private final AmqpAdmin amqpAdmin;
 
