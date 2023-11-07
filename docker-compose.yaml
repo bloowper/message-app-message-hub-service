@@ -1,21 +1,13 @@
 version: "3.9"
 services:
   rabbitmq-message-app:
-    image: rabbitmq:3.10.5-management
-    container_name: 'rabbitmq-message-hub'
-    volumes:
-      - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
-      - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
-      - ./rabbitmq/logs:/var/log/rabbitmq/log
-      - ./rabbitmq/var/lib/rabbitmq
-    restart: "no"
+    image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5672:5672" # RabbitMQ server
+      - "15672:15672" # Management console
     environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
   mongo-message-app:
     image: mongo:latest
     restart: "no"
