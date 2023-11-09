@@ -2,30 +2,30 @@
 // @no-log
 GET localhost:8081/api/v1/message
 Accept: application/x-ndjson
-User-uuid: fbaa5622-0ddc-4a9d-b40f-559712498ea2
-
-### GET MESSAGE SSE client 2
-// @no-log
-GET localhost:8081/api/v1/message
-Accept: application/x-ndjson
-User-uuid: 06b8fc6d-ff4f-4d28-ac0e-aecd3f310ce7
+User-uuid: {{user1id}}
 
 ### POST MESSAGE client 1
 // @no-log
 POST localhost:8081/api/v1/message
 Content-Type: application/json
-User-uuid: fbaa5622-0ddc-4a9d-b40f-559712498ea2
+User-uuid: {{user1id}}
 
 {
   "destinationChanelUuid": "636edd8763d67e7790295619",
   "messageContent": "T1231312313213123131est"
 }
 
+### GET MESSAGE SSE client 2
+// @no-log
+GET localhost:8081/api/v1/message
+Accept: application/x-ndjson
+User-uuid: {{user2id}}
+
 ### POST MESSAGE  client 2
 // @no-log
 POST localhost:8081/api/v1/message
 Content-Type: application/json
-User-uuid: 06b8fc6d-ff4f-4d28-ac0e-aecd3f310ce7
+User-uuid: {{user2id}}
 
 {
   "destinationChanelUuid": "636edd8763d67e779029561b",

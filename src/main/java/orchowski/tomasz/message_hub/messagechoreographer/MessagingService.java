@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import orchowski.tomasz.message_hub.messagechoreographer.dto.MessageSendingException;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
-import orchowski.tomasz.message_hub.userinformation.UserInformationFacade;
+import orchowski.tomasz.message_hub.channel.ChannelInformationFacade;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,7 +23,7 @@ import java.util.UUID;
 class MessagingService {
     private final Sender sender;
     private final Receiver receiver;
-    private final UserInformationFacade userInformationFacade;
+    private final ChannelInformationFacade channelInformationFacade;
     private final OutboundMessageFactory outboundMessageFactory;
     private final QueueSpecificationFactory queueSpecificationFactory;
     private final BindingSpecificationFactory bindingSpecificationFactory;
@@ -59,7 +59,7 @@ class MessagingService {
     }
 
     private Mono<Void> bindQueueToRelatedChannels(QueueSpecificationWithUserUuid queueSpecificationWithUserUuid) {
-        return userInformationFacade.getUserChannels(Mono.just(queueSpecificationWithUserUuid.userUuid()))
+        return channelInformationFacade.getUserChannels(Mono.just(queueSpecificationWithUserUuid.userUuid()))
                 .doOnNext(channelDto -> log.info("Received channel information [{}]", channelDto))
                 .map(channelDto -> bindingSpecificationFactory.createBindingSpecification(queueSpecificationWithUserUuid.queueSpecification.getName(), channelDto.chanelId()))
                 .doOnNext(bindingSpecification -> log.info("Binding queue {} to exchange {} by routing key {}", bindingSpecification.getQueue(), bindingSpecification.getExchange(), bindingSpecification.getRoutingKey()))

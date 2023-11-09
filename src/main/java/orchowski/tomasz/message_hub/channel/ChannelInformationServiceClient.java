@@ -1,11 +1,9 @@
-package orchowski.tomasz.message_hub.userinformation;
+package orchowski.tomasz.message_hub.channel;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 @Component
 class ChannelInformationServiceClient {
@@ -23,7 +21,11 @@ class ChannelInformationServiceClient {
                 userId ->
                         webClient
                                 .get()
-                                .uri("/api/v1/user/{userId}", Map.of("userId", userId))
+                                .uri(uriBuilder -> uriBuilder
+                                        .path("/api/v1/channels")
+                                        .queryParam("userId",userId)
+                                        .build()
+                                )
                                 .retrieve()
                                 .bodyToFlux(ChannelInformation.class)
         );

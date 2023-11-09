@@ -1,4 +1,4 @@
-package orchowski.tomasz.message_hub.userinformation;
+package orchowski.tomasz.message_hub.channel;
 
 import java.util.List;
 

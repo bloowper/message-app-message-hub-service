@@ -4,7 +4,7 @@ package orchowski.tomasz.message_hub.messagechoreographer;
 import lombok.extern.slf4j.Slf4j;
 import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import orchowski.tomasz.message_hub.shared.TestContainerInfrastructure;
-import orchowski.tomasz.message_hub.userinformation.UserInformationServiceStub;
+import orchowski.tomasz.message_hub.channel.ChannelInformationServiceStub;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
     @Autowired
     MessageChoreographerFacade messageChoreographerFacade;
     @Autowired
-    UserInformationServiceStub userInformationServiceStub;
+    ChannelInformationServiceStub userInformationServiceStub;
 
     @AfterEach
     void afterEach() {
@@ -156,8 +156,8 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
         // TODO resolve problem with spring profiles that makes hard to start test with @Profile("!userInformation") ( start context with stub instead of real implementation)
         @Bean
         @Primary
-        UserInformationServiceStub userInformationServiceStub() {
-            return new UserInformationServiceStub();
+        ChannelInformationServiceStub userInformationServiceStub() {
+            return new ChannelInformationServiceStub();
         }
     }
 

@@ -1,6 +1,6 @@
-package orchowski.tomasz.message_hub.userinformation;
+package orchowski.tomasz.message_hub.channel;
 
-import orchowski.tomasz.message_hub.userinformation.dto.ChannelDto;
+import orchowski.tomasz.message_hub.channel.dto.ChannelDto;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Profile("!userInformation")
-public class UserInformationServiceStub implements UserInformationFacade {
+public class ChannelInformationServiceStub implements ChannelInformationFacade {
 
     Map<String, List<String>> userChannels = new ConcurrentHashMap<>();
 
