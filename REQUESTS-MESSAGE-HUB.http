@@ -28,6 +28,6 @@ Content-Type: application/json
 User-uuid: {{user2id}}
 
 {
-  "destinationChanelUuid": "636edd8763d67e779029561b",
-  "messageContent": "123"
+  "destinationChanelUuid": "{{channel1id}}",
+  "messageContent": "111"
 }

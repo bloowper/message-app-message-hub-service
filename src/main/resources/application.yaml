@@ -2,6 +2,10 @@ server:
   port: 8081
 #  shutdown: graceful
 
+logging:
+  level:
+    web: debug
+
 spring:
   profiles:
     group:
