@@ -33,7 +33,12 @@ class MessageController {
 
     @GetMapping(value = "/message", produces = APPLICATION_NDJSON_VALUE)
     Flux<UserMessageDto> getMessages(@RequestHeader("User-uuid") String userUuid) {
-        return messageChoreographerFacade.getUserMessages(Mono.just(userUuid));
+        return messageChoreographerFacade.getUserMessages(Mono.just(userUuid))
+                .doOnSubscribe(subscription -> log.info("User {} subscribed to messages", userUuid))
+                .doOnCancel(() -> log.info("User {} unsubscribed from messages", userUuid))
+                .doOnComplete(() -> log.info("User {} completed messages", userUuid))
+                .doOnNext(userMessageDto -> log.info("User {} received message {}", userUuid, userMessageDto))
+                .doOnError(throwable -> log.error("User {} error occurred {}", userUuid, throwable.getMessage()));
     }
 
     @PostMapping(value = "/message")
