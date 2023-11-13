@@ -21,9 +21,7 @@ public class ChannelInformationServiceStub implements ChannelInformationFacade {
     @Override
     public Flux<ChannelDto> getUserChannels(Mono<String> userUuidMono) {
         return userUuidMono
-                .map(userUuid -> Optional.ofNullable(userChannels.get(userUuid)).orElse(List.of(
-                        "channel-1"
-                )))
+                .map(userUuid -> Optional.ofNullable(userChannels.get(userUuid)).orElse(List.of()))
                 .flatMapMany(Flux::fromIterable)
                 .map(ChannelDto::new);
     }
