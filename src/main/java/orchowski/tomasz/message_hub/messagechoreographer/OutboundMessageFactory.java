@@ -23,19 +23,21 @@ class OutboundMessageFactory {
     private final MessageBrokerProperties messageBrokerProperties;
 
     Mono<OutboundMessage> createOutboundMessageMono(Mono<UserMessageDto> userMessageDtoFlux) {
-        return userMessageDtoFlux.handle((userMessageDto, sink) -> {
-            try {
-                RoutingKeyStrategy routingKeyStrategy = gerRoutingKeyStrategy(userMessageDto.getDestinationChanelUuid());
-                String marshaledMessage = objectMapper.writeValueAsString(userMessageDto);
-                sink.next(new OutboundMessage(
-                        messageBrokerProperties.getExchange().getUserMessage(),
-                        routingKeyStrategy.getRoutingKey(),
-                        marshaledMessage.getBytes(CHARSET)
-                ));
-            } catch (JsonProcessingException e) {
-                sink.error(new MessageMarshalingException(e));
-            }
-        });
+        return userMessageDtoFlux.map(
+                userMessageDto -> {
+                    try {
+                        RoutingKeyStrategy routingKeyStrategy = gerRoutingKeyStrategy(userMessageDto.getDestinationChanelUuid());
+                        String marshaledMessage = objectMapper.writeValueAsString(userMessageDto);
+                        return new OutboundMessage(
+                                messageBrokerProperties.getExchange().getUserMessage(),
+                                routingKeyStrategy.getRoutingKey(),
+                                marshaledMessage.getBytes(CHARSET)
+                        );
+                    } catch (JsonProcessingException e) {
+                        throw new MessageMarshalingException(e);
+                    }
+                }
+        );
     }
 
 
