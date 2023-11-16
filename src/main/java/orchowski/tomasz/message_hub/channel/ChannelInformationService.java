@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@Profile("userInformation")
+@Profile("channelInformation")
 @RequiredArgsConstructor
 class ChannelInformationService implements ChannelInformationFacade {
 

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,8 +26,8 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = {MessageChoreographerServiceBehavioralIT.MessageChoreographerConfiguration.class})
 @Slf4j
+@ActiveProfiles("messageChoreographer")
 class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructure {
     private static final long MESSAGE_RECEIVE_TIMEOUT = 600;
 
@@ -93,7 +94,6 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
                 .expectNextCount(0)
                 .as("User should not receive message")
                 .verifyTimeout(Duration.ofMillis(MESSAGE_RECEIVE_TIMEOUT));
-
     }
 
     @Test
@@ -149,16 +149,6 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
                 .assertNext(userMessageDto -> assertEquals(userMessageDto, message))
                 .thenCancel().verify();
-    }
-
-    @TestConfiguration
-    static class MessageChoreographerConfiguration {
-        // TODO resolve problem with spring profiles that makes hard to start test with @Profile("!userInformation") ( start context with stub instead of real implementation)
-        @Bean
-        @Primary
-        ChannelInformationServiceStub userInformationServiceStub() {
-            return new ChannelInformationServiceStub();
-        }
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-@Profile("!userInformation")
+@Profile("!channelInformation")
 public class ChannelInformationServiceStub implements ChannelInformationFacade {
 
     Map<String, List<String>> userChannels = new ConcurrentHashMap<>();

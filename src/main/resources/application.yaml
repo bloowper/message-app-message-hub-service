@@ -9,7 +9,7 @@ logging:
 spring:
   profiles:
     group:
-      default: messageChoreographer,userInformation
+      default: messageChoreographer,channelInformation
   main:
     web-application-type: reactive
   rabbitmq:
