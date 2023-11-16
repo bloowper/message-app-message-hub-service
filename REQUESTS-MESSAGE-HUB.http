@@ -1,12 +1,12 @@
 ### GET MESSAGE SSE client 1
 // @no-log
-GET localhost:8081/api/v1/message
+GET localhost:8081/api/v1/messages
 Accept: application/x-ndjson
 User-uuid: {{user1id}}
 
 ### POST MESSAGE client 1
 // @no-log
-POST localhost:8081/api/v1/message
+POST localhost:8081/api/v1/messages
 Content-Type: application/json
 User-uuid: {{user1id}}
 
@@ -17,13 +17,13 @@ User-uuid: {{user1id}}
 
 ### GET MESSAGE SSE client 2
 // @no-log
-GET localhost:8081/api/v1/message
+GET localhost:8081/api/v1/messages
 Accept: application/x-ndjson
 User-uuid: {{user2id}}
 
 ### POST MESSAGE  client 2
 // @no-log
-POST localhost:8081/api/v1/message
+POST localhost:8081/api/v1/messages
 Content-Type: application/json
 User-uuid: {{user2id}}
 
