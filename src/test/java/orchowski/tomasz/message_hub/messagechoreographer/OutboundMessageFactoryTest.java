@@ -3,7 +3,7 @@ package orchowski.tomasz.message_hub.messagechoreographer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import orchowski.tomasz.message_hub.configuration.dto.ServiceUuidDto;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;

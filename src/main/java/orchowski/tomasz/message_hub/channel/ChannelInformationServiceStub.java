@@ -1,6 +1,7 @@
 package orchowski.tomasz.message_hub.channel;
 
-import orchowski.tomasz.message_hub.channel.dto.ChannelDto;
+import orchowski.tomasz.message_hub.channel.api.ChannelDto;
+import orchowski.tomasz.message_hub.channel.api.ChannelInformationFacade;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

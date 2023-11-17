@@ -1,7 +1,8 @@
 package orchowski.tomasz.message_hub.messagechoreographer;
 
 import lombok.RequiredArgsConstructor;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import orchowski.tomasz.message_hub.messagechoreographer.api.MessageChoreographerFacade;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

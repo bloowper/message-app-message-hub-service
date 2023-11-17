@@ -2,7 +2,7 @@ package orchowski.tomasz.message_hub.messagechoreographer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

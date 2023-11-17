@@ -1,6 +1,6 @@
-package orchowski.tomasz.message_hub.channel;
+package orchowski.tomasz.message_hub.channel.api;
 
-import orchowski.tomasz.message_hub.channel.dto.ChannelDto;
+import orchowski.tomasz.message_hub.channel.api.ChannelDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

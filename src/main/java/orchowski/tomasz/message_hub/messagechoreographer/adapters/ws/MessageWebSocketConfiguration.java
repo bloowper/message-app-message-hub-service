@@ -1,11 +1,11 @@
-package orchowski.tomasz.message_hub.messagehandler;
+package orchowski.tomasz.message_hub.messagechoreographer.adapters.ws;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import orchowski.tomasz.message_hub.messagechoreographer.MessageChoreographerFacade;
+import orchowski.tomasz.message_hub.messagechoreographer.adapters.common.MessageMapper;
+import orchowski.tomasz.message_hub.messagechoreographer.api.MessageChoreographerFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.retry.annotation.Backoff;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;

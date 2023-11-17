@@ -2,18 +2,15 @@ package orchowski.tomasz.message_hub.messagechoreographer;
 
 
 import lombok.extern.slf4j.Slf4j;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import orchowski.tomasz.message_hub.messagechoreographer.api.MessageChoreographerFacade;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import orchowski.tomasz.message_hub.shared.TestContainerInfrastructure;
 import orchowski.tomasz.message_hub.channel.ChannelInformationServiceStub;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;

@@ -1,17 +1,17 @@
-package orchowski.tomasz.message_hub.messagehandler;
+package orchowski.tomasz.message_hub.messagechoreographer.adapters.ws;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import orchowski.tomasz.message_hub.messagechoreographer.MessageChoreographerFacade;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
-import org.springframework.boot.web.servlet.server.Session;
+import orchowski.tomasz.message_hub.messagechoreographer.adapters.common.MessageFromUser;
+import orchowski.tomasz.message_hub.messagechoreographer.adapters.common.MessageMapper;
+import orchowski.tomasz.message_hub.messagechoreographer.api.MessageChoreographerFacade;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;

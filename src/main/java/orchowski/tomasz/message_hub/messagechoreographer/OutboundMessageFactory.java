@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import orchowski.tomasz.message_hub.configuration.dto.ServiceUuidDto;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;

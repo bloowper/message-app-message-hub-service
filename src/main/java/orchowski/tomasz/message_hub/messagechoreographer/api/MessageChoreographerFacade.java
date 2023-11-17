@@ -1,6 +1,5 @@
-package orchowski.tomasz.message_hub.messagechoreographer;
+package orchowski.tomasz.message_hub.messagechoreographer.api;
 
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

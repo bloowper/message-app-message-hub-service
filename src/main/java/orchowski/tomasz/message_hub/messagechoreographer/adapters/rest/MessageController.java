@@ -1,9 +1,11 @@
-package orchowski.tomasz.message_hub.messagehandler;
+package orchowski.tomasz.message_hub.messagechoreographer.adapters.rest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import orchowski.tomasz.message_hub.messagechoreographer.MessageChoreographerFacade;
-import orchowski.tomasz.message_hub.messagehandler.dto.UserMessageDto;
+import orchowski.tomasz.message_hub.messagechoreographer.adapters.common.MessageFromUser;
+import orchowski.tomasz.message_hub.messagechoreographer.adapters.common.MessageMapper;
+import orchowski.tomasz.message_hub.messagechoreographer.api.MessageChoreographerFacade;
+import orchowski.tomasz.message_hub.messagechoreographer.api.UserMessageDto;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
