@@ -1,0 +1,25 @@
+### Send message and await for messages
+// @no-log
+WEBSOCKET ws://localhost:8081/api/v2/messages
+User-Uuid: {{user2id}}
+
+=== wait-for-server
+
+{
+	"destinationChanelUuid": "{{channel1id}}",
+	"messageContent" : "HI!"
+}
+
+
+### Send message and await for messages
+// @no-log
+WEBSOCKET ws://localhost:8081/api/v2/messages
+User-Uuid: {{user1id}}
+
+{
+	"destinationChanelUuid": "{{channel1id}}",
+	"messageContent" : "Hello everybody!"
+}
+
+=== wait-for-server
+

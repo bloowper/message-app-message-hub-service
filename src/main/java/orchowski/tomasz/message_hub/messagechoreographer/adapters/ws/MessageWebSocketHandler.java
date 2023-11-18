@@ -14,6 +14,7 @@ import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -25,26 +26,35 @@ class MessageWebSocketHandler implements WebSocketHandler {
 
     @Override
     public Mono<Void> handle(WebSocketSession session) {
-        // TODO: talk about problem with path variables user uuids/arguments etc
-        var userUuid = "USER UUID";
+        Optional<String> optionalUserUuid = getUserUuid(session);
+        if(optionalUserUuid.isEmpty()) {
+            return session.close();
+        }
+        String userUuid = optionalUserUuid.get();
+        Mono<Void> inbound = getInboundMessageConsumer(session, userUuid);
+        Mono<Void> outbound = getOutboundMessageProducer(session, userUuid);
+        return Mono.zip(inbound, outbound).then();
+    }
 
-        var inbound = session.receive()
+    private Mono<Void> getInboundMessageConsumer(WebSocketSession session, String userUuid) {
+        return session.receive()
                 .map(this::deserializeInboundMessage)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(messageFromUser -> messageMapper.toDto(messageFromUser, userUuid)) // path variable user uuid
+                .map(messageFromUser -> messageMapper.toDto(messageFromUser, userUuid))
                 .map(Mono::just)
                 .flatMap(messageChoreographerFacade::sendMessage)
                 .then();
+    }
 
-        Mono<Void> outbound = session.send(
+
+    private Mono<Void> getOutboundMessageProducer(WebSocketSession session, String userUuid) {
+        return session.send(
                 messageChoreographerFacade.getUserMessages(Mono.just(userUuid))
-                .map(userMessageDto -> serializeOutboundMessage(userMessageDto, session))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                        .map(userMessageDto -> serializeOutboundMessage(userMessageDto, session))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
         );
-
-        return Mono.zip(inbound, outbound).then();
     }
 
     private Optional<MessageFromUser> deserializeInboundMessage(WebSocketMessage webSocketMessage) {
@@ -61,6 +71,14 @@ class MessageWebSocketHandler implements WebSocketHandler {
             return Optional.ofNullable(objectMapper.writeValueAsString(userMessageDto)).map(session::textMessage);
         } catch (JsonProcessingException e) {
             log.warn("Cannot serialize message {}", userMessageDto, e);
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> getUserUuid(WebSocketSession session) {
+        List<String> uuidlist = session.getHandshakeInfo().getHeaders().get("User-Uuid");
+        if (uuidlist!=null && !uuidlist.isEmpty()) {
+            return Optional.of(uuidlist.get(0));
         }
         return Optional.empty();
     }

@@ -24,8 +24,6 @@ import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600) // TODO REMOVE THIS AFTER LOCAL UI DEVELOPMENT
 class MessageController {
-    // TODO change user-uuid header to jwt token and extract user uuid
-
     private final MessageChoreographerFacade messageChoreographerFacade;
     private final MessageMapper messageMapper;
 

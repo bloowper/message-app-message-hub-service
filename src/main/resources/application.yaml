@@ -8,8 +8,7 @@ logging:
 
 spring:
   profiles:
-    group:
-      default: messageChoreographer,channelInformation
+    active: channelInformation, messageChoreographer
   main:
     web-application-type: reactive
   rabbitmq:

@@ -15,12 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @Profile("!channelInformation")
 public class ChannelInformationServiceStub implements ChannelInformationFacade {
-
+    private static final String DEFAULT_CHANNEL_UUID = "DEFAULT_CHANNEL_UUID";
     Map<String, List<String>> userChannels = new ConcurrentHashMap<>();
 
 
     @Override
     public Flux<ChannelDto> getUserChannels(Mono<String> userUuidMono) {
+        assignDefaultChannelToUserIfThereIsNoChannels(userUuidMono);
         return userUuidMono
                 .map(userUuid -> Optional.ofNullable(userChannels.get(userUuid)).orElse(List.of()))
                 .flatMapMany(Flux::fromIterable)
@@ -32,6 +33,11 @@ public class ChannelInformationServiceStub implements ChannelInformationFacade {
     }
 
     public void removeAllUsersInformation() {
-        this.userChannels.keySet().removeIf(s -> true);
+        this.userChannels = new ConcurrentHashMap<>();
+    }
+
+    private void assignDefaultChannelToUserIfThereIsNoChannels(Mono<String> userUuidMono) {
+        userUuidMono.filter(userUuid -> !userChannels.containsKey(userUuid))
+                .subscribe(userUuid -> userChannels.put(userUuid, List.of(DEFAULT_CHANNEL_UUID)));
     }
 }

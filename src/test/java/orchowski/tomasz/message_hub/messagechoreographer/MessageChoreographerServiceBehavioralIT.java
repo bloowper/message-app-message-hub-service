@@ -32,11 +32,11 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
     @Autowired
     MessageChoreographerFacade messageChoreographerFacade;
     @Autowired
-    ChannelInformationServiceStub userInformationServiceStub;
+    ChannelInformationServiceStub channelInformationServiceStub;
 
     @AfterEach
     void afterEach() {
-        userInformationServiceStub.removeAllUsersInformation();// get rid of channels set for all user
+        channelInformationServiceStub.removeAllUsersInformation();// get rid of channels set for all user
     }
 
     @Test
@@ -48,8 +48,8 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
         UserMessageDto messageCreatedByUser2 = new UserMessageDto(Instant.now(), channelUuid, "user2", user2Uuid, "Message content");
 
         // users1 and user2 participate in same channel
-        userInformationServiceStub.setUserChannels(user1Uuid, List.of(channelUuid)); // m8by mockito would be more readable?
-        userInformationServiceStub.setUserChannels(user2Uuid, List.of(channelUuid));
+        channelInformationServiceStub.setUserChannels(user1Uuid, List.of(channelUuid)); // m8by mockito would be more readable?
+        channelInformationServiceStub.setUserChannels(user2Uuid, List.of(channelUuid));
 
         // when
         Flux<UserMessageDto> messagesToUser1 = messageChoreographerFacade.getUserMessages(Mono.just(user1Uuid));
@@ -76,8 +76,8 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
         UserMessageDto messageCreatedByUser2 = new UserMessageDto(Instant.now(), user2ChannelUuid, user2, user2Uuid, "This message should not be received by user1");
 
         // user1 and user2 NOT SHARING ANY CHANNELS
-        userInformationServiceStub.setUserChannels(user1Uuid, List.of(user1ChannelUuid));
-        userInformationServiceStub.setUserChannels(user2Uuid, List.of(user2ChannelUuid));
+        channelInformationServiceStub.setUserChannels(user1Uuid, List.of(user1ChannelUuid));
+        channelInformationServiceStub.setUserChannels(user2Uuid, List.of(user2ChannelUuid));
 
         // when
         Flux<UserMessageDto> messagesToUser1 = messageChoreographerFacade.getUserMessages(Mono.just(user1Uuid));
@@ -100,7 +100,7 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
         String channelUuid = "channelUuid";
         UserMessageDto messageCreatedByUser = new UserMessageDto(Instant.now(), channelUuid, "username", userUuid, "This is message send by user1");
 
-        userInformationServiceStub.setUserChannels(userUuid, List.of(channelUuid));
+        channelInformationServiceStub.setUserChannels(userUuid, List.of(channelUuid));
 
         // when
         Flux<UserMessageDto> messagesToUser = messageChoreographerFacade.getUserMessages(Mono.just(userUuid));
@@ -124,9 +124,9 @@ class MessageChoreographerServiceBehavioralIT extends TestContainerInfrastructur
         String user3Uuid = UUID.randomUUID().toString();
 
         // all users participate in same channel
-        userInformationServiceStub.setUserChannels(user1Uuid, List.of(channelUuid));
-        userInformationServiceStub.setUserChannels(user2Uuid, List.of(channelUuid));
-        userInformationServiceStub.setUserChannels(user3Uuid, List.of(channelUuid));
+        channelInformationServiceStub.setUserChannels(user1Uuid, List.of(channelUuid));
+        channelInformationServiceStub.setUserChannels(user2Uuid, List.of(channelUuid));
+        channelInformationServiceStub.setUserChannels(user3Uuid, List.of(channelUuid));
 
         UserMessageDto message = new UserMessageDto(Instant.now(), channelUuid, "user3", user3Uuid, "Message content");
 
