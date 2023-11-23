@@ -5,8 +5,6 @@ This microservice is responsible for dispatching messages to users, facilitating
 
 ## Technical Architecture and System Profiles
 
-## *I WANT TITLE HERE*
-
 ### Profiles
 | Name                  | Description |
 |:----------------------|:-------------|
