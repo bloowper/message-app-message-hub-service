@@ -1,4 +1,4 @@
-### Send message and await for messages
+### Send wait for message and send message
 // @no-log
 WEBSOCKET ws://localhost:8081/api/v2/messages
 User-Uuid: {{user2id}}
@@ -23,3 +23,19 @@ User-Uuid: {{user1id}}
 
 === wait-for-server
 
+########################################################################################################################
+########################################################################################################################
+
+### Send message
+// @no-log
+WEBSOCKET ws://localhost:8081/api/v2/messages
+User-Uuid: {{user1id}}
+
+
+### Await for messages
+// @no-log
+WEBSOCKET ws://localhost:8081/api/v2/messages
+User-Uuid: {{user1id}}
+
+
+=== wait-for-server

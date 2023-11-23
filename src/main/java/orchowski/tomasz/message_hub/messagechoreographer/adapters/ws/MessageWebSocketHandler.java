@@ -27,6 +27,7 @@ class MessageWebSocketHandler implements WebSocketHandler {
     @Override
     public Mono<Void> handle(WebSocketSession session) {
         Optional<String> optionalUserUuid = getUserUuid(session);
+        log.info("User {} connected", optionalUserUuid.orElse("unknown"));
         if(optionalUserUuid.isEmpty()) {
             return session.close();
         }
