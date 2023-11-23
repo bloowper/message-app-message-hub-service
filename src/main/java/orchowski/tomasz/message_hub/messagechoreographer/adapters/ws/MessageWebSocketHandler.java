@@ -29,6 +29,7 @@ class MessageWebSocketHandler implements WebSocketHandler {
         Optional<String> optionalUserUuid = getUserUuid(session);
         log.info("User {} connected", optionalUserUuid.orElse("unknown"));
         if(optionalUserUuid.isEmpty()) {
+            log.error("User uuid not found in headers");
             return session.close();
         }
         String userUuid = optionalUserUuid.get();
